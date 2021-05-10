@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "514673203217",
+    "project_id": "eattogether-1647c",
+    "storage_bucket": "eattogether-1647c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514673203217:android:f4937471aecc8f1bdc39b0",
+        "android_client_info": {
+          "package_name": "com.knu.eattogether"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514673203217-3u2rstce67kiuj04ts8e3qqvhqim3bif.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.knu.eattogether",
+            "certificate_hash": "72c1ce5248f7e944e25edb766079edf087a6edd0"
+          }
+        },
+        {
+          "client_id": "514673203217-muaoivsso9vkf4e6n8908t7g0cdo2ku3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDAkO6BipRzsK5m-ZpNM4fPDtrIuTr-KU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514673203217-muaoivsso9vkf4e6n8908t7g0cdo2ku3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
