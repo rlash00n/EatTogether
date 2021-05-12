@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.widget.TextView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +15,8 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     DeliveryFragment deliveryFragment;
     EatOutFragment eatOutFragment;
-    SettingsFragment settingsFragment;
+    ChatFragment chatFragment;
+    RealSettingsFragment realSettingsFragment;
 
     TextView main_tv;
 
@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         deliveryFragment = new DeliveryFragment();
         eatOutFragment = new EatOutFragment();
-        settingsFragment = new SettingsFragment();
+        chatFragment = new ChatFragment();
+        realSettingsFragment = new RealSettingsFragment();
 
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.main_frame_layout, deliveryFragment)
@@ -57,9 +58,16 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.tab3:
+                        main_tv.setText("채팅방");
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.main_frame_layout, chatFragment)
+                                .commitAllowingStateLoss();
+                        return true;
+
+                    case R.id.tab4:
                         main_tv.setText("설정");
                         getSupportFragmentManager().beginTransaction().
-                                replace(R.id.main_frame_layout, settingsFragment)
+                                replace(R.id.main_frame_layout, realSettingsFragment)
                                 .commitAllowingStateLoss();
                         return true;
                 }

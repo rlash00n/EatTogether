@@ -14,6 +14,8 @@ public class EatOutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_eat_out, container, false);
+        final View view = inflater.inflate(R.layout.fragment_eat_out, container, false);
+
+        return view;
     }
 }
