@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     DeliveryFragment deliveryFragment;
     EatOutFragment eatOutFragment;
     ChatFragment chatFragment;
-    RealSettingsFragment realSettingsFragment;
+    SettingsFragment settingsFragment;
 
     TextView main_tv;
 
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         deliveryFragment = new DeliveryFragment();
         eatOutFragment = new EatOutFragment();
         chatFragment = new ChatFragment();
-        realSettingsFragment = new RealSettingsFragment();
+        settingsFragment = new SettingsFragment();
 
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.main_frame_layout, deliveryFragment)
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.tab4:
                         main_tv.setText("설정");
                         getSupportFragmentManager().beginTransaction().
-                                replace(R.id.main_frame_layout, realSettingsFragment)
+                                replace(R.id.main_frame_layout, settingsFragment)
                                 .commitAllowingStateLoss();
                         return true;
                 }
