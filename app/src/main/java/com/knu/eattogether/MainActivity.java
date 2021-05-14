@@ -15,8 +15,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     DeliveryFragment deliveryFragment;
     EatOutFragment eatOutFragment;
-    ChatFragment chatFragment;
-    SettingsFragment settingsFragment;
+    MyPageFragment chatFragment;
 
     TextView main_tv;
 
@@ -31,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         deliveryFragment = new DeliveryFragment();
         eatOutFragment = new EatOutFragment();
-        chatFragment = new ChatFragment();
-        settingsFragment = new SettingsFragment();
+        chatFragment = new MyPageFragment();
 
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.main_frame_layout, deliveryFragment)
@@ -58,16 +56,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.tab3:
-                        main_tv.setText("채팅방");
+                        main_tv.setText("마이 페이지");
                         getSupportFragmentManager().beginTransaction().
                                 replace(R.id.main_frame_layout, chatFragment)
-                                .commitAllowingStateLoss();
-                        return true;
-
-                    case R.id.tab4:
-                        main_tv.setText("설정");
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.main_frame_layout, settingsFragment)
                                 .commitAllowingStateLoss();
                         return true;
                 }

@@ -14,12 +14,6 @@
     <item
         android:id="@+id/tab3"
         android:icon="@drawable/chat"
-        android:title="채팅방"/>
-
-    <item
-        android:id="@+id/tab4"
-        android:icon="@drawable/settings"
-        android:title="설정"/>
-
+        android:title="마이 페이지"/>
 
 </menu>
