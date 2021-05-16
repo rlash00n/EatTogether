@@ -140,8 +140,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="right"
                 android:textSize="10dp"
-                android:textColor="@color/black"
-                android:text="∞"/>
+                android:textColor="@color/black" />
 
         </LinearLayout>
 

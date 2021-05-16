@@ -3,8 +3,9 @@ package com.knu.eattogether;
 import java.util.ArrayList;
 
 public class PostItem {
-    private String profile;
-    private String nick;
+    private String profileuri;
+    private String profileimagename;
+    private String nickname;
     private String title;
     private String contents;
     private String writetime;
@@ -13,12 +14,14 @@ public class PostItem {
     private String picturecnt;
     private String cur_people;
     private String max_people;
+    private String imageexist;
     private ArrayList<String> imageurilist = new ArrayList<>();
     private ArrayList<String> imagenamelist = new ArrayList<>();
 
-    public PostItem(String profile, String nick, String title, String contents, String writetime, String postid, String userid, String picturecnt, String cur_people, String max_people, ArrayList<String> imageurilist, ArrayList<String> imagenamelist) {
-        this.profile = profile;
-        this.nick = nick;
+    public PostItem(String profileuri, String profileimagename, String nickname, String title, String contents, String writetime, String postid, String userid, String picturecnt, String cur_people, String max_people, String imageexist, ArrayList<String> imageurilist, ArrayList<String> imagenamelist) {
+        this.profileuri = profileuri;
+        this.profileimagename = profileimagename;
+        this.nickname = nickname;
         this.title = title;
         this.contents = contents;
         this.writetime = writetime;
@@ -27,26 +30,36 @@ public class PostItem {
         this.picturecnt = picturecnt;
         this.cur_people = cur_people;
         this.max_people = max_people;
+        this.imageexist = imageexist;
         this.imageurilist = imageurilist;
         this.imagenamelist = imagenamelist;
     }
 
-    public PostItem(){}
-
-    public String getProfile() {
-        return profile;
+    public PostItem() {
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public String getProfileuri() {
+        return profileuri;
     }
 
-    public String getNick() {
-        return nick;
+    public void setProfileuri(String profileuri) {
+        this.profileuri = profileuri;
     }
 
-    public void setNick(String nick) {
-        this.nick = nick;
+    public String getProfileimagename() {
+        return profileimagename;
+    }
+
+    public void setProfileimagename(String profileimagename) {
+        this.profileimagename = profileimagename;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 
     public String getTitle() {
@@ -111,6 +124,14 @@ public class PostItem {
 
     public void setMax_people(String max_people) {
         this.max_people = max_people;
+    }
+
+    public String getImageexist() {
+        return imageexist;
+    }
+
+    public void setImageexist(String imageexist) {
+        this.imageexist = imageexist;
     }
 
     public ArrayList<String> getImageurilist() {

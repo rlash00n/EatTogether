@@ -22,13 +22,15 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class DeliveryFragment extends Fragment {
 
     private RecyclerView deliveryRecyclerView;
     private BoardAdapter boardAdapter;
     private ArrayList<PostItem> list = new ArrayList<>();
-    private DatabaseReference databaseReference;
+    DatabaseReference databaseReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,12 +45,9 @@ public class DeliveryFragment extends Fragment {
                 Intent intent = new Intent(view.getContext(), WriteDeliveryBoardActivity.class);
                 startActivity(intent);
             }
-
         });
 
         deliveryRecyclerView = view.findViewById(R.id.deliveryboard_recyclerview); // 아이디 연결
-        deliveryRecyclerView.setHasFixedSize(true); // 리사이클러뷰 기존 성능 강화
-
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
         deliveryRecyclerView.setLayoutManager(manager);
 
@@ -62,7 +61,11 @@ public class DeliveryFragment extends Fragment {
                     PostItem item1 = snapshot1.getValue(PostItem.class); // 만들어 뒀던 PostItem 객체에 데이터를 담는다
                     list.add(item1); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
                 }
-                boardAdapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
+                UsersItem item2 = snapshot.getValue(UsersItem.class);
+                // boardAdapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
+                Collections.sort(list, new Ascending());
+                boardAdapter = new BoardAdapter(view.getContext(), list);
+                deliveryRecyclerView.setAdapter(boardAdapter);
             }
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
@@ -70,10 +73,17 @@ public class DeliveryFragment extends Fragment {
             }
         });
 
-        boardAdapter = new BoardAdapter(view.getContext(), list);
-        deliveryRecyclerView.setAdapter(boardAdapter);
 
         return view;
+    }
+
+    class Ascending implements Comparator<PostItem> {
+
+        @Override
+        public int compare(PostItem o1, PostItem o2) {
+            return o2.getWritetime().compareTo(o1.getWritetime());
+        }
+
     }
 
 }

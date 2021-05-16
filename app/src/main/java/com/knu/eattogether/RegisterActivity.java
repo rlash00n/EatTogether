@@ -68,6 +68,14 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
+                                        UsersItem item = new UsersItem();
+                                        item.setIdToken(firebaseUser.getUid());
+                                        item.setEmail(firebaseUser.getEmail());
+                                        item.setPassword(strPwd);
+                                        item.setNickname(strNick);
+                                        item.setProfileimagename(null);
+                                        item.setProfileuri("https://firebasestorage.googleapis.com/v0/b/eattogether-1647c.appspot.com/o/profile%2Fdefault_profile.png?alt=media&token=e114db4a-8593-4403-a706-3313c74b8562");
+
                                         UserAccount account = new UserAccount();
                                         account.setIdToken(firebaseUser.getUid());
                                         account.setEmail(firebaseUser.getEmail());
@@ -75,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         account.setNickname(strNick);
 
                                         //  setValue : database에 insert (삽입) 행위
-                                        mDatabaseRef.child(firebaseUser.getUid()).setValue(account);
+                                        mDatabaseRef.child(firebaseUser.getUid()).setValue(item);
 
                                         Toast.makeText(RegisterActivity.this, "인증 이메일이 전송되었습니다.\n확인 후 로그인 해주세요!", Toast.LENGTH_LONG).show();
                                         finish();

@@ -1,6 +1,7 @@
 package com.knu.eattogether;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,15 +39,15 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         // 각 아이템들에 대한 매칭
         PostItem item1 = mDataList.get(position);
 
-        Glide.with(holder.itemView).load(mDataList.get(position).getProfile()).into(holder.writer_image);
-        holder.writer_nick.setText(item1.getNick());
+        Glide.with(context).load(mDataList.get(position).getProfileuri()).into(holder.writer_image);
+        holder.writer_nick.setText(item1.getNickname());
         holder.title.setText(item1.getTitle());
         holder.content.setText(item1.getContents());
 
         Long t = Long.parseLong(item1.getWritetime());
         holder.time.setText(formatTimeString(t));
 
-        holder.pic_cnt.setText(item1.getPicturecnt());
+        holder.pic_cnt.setText(item1.getImageurilist().size()+"");
         holder.cur_ppl.setText(item1.getCur_people());
         holder.max_ppl.setText(item1.getMax_people());
 
@@ -54,7 +55,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return (mDataList != null ? mDataList.size() : 0);
+        return mDataList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -78,6 +79,17 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             pic_cnt = itemView.findViewById(R.id.board_picture_cnt);
             cur_ppl = itemView.findViewById(R.id.board_cur_people);
             max_ppl = itemView.findViewById(R.id.board_max_people);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    Intent intent = new Intent(v.getContext(), DeliveryBoardDetailActivity.class);
+                    intent.putExtra("pid", mDataList.get(pos).getPostid());
+                    intent.putExtra("uid", mDataList.get(pos).getUserid());
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
     }
 
