@@ -238,8 +238,9 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
 
                                         if (cnt == list.size() - 1) { //이미지파일 업로드 완료 후 동작
                                             progressDialog.dismiss();
-                                            postimage(postid, item.getCur_people(), item.getNickname(), item2.getProfileuri(), item2.getProfileimagename());
+                                            postimage(postid, item.getCur_people(), item.getNickname(), item.getProfileuri(), item.getProfileimagename());
                                         }
+
                                     } else {   //새로운 이미지
                                         list3.add(imagename + "");
                                         Uri file = list.get(i).getImageuri();
@@ -283,7 +284,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
 
                                                     if (cnt == list.size() - 1) { //이미지파일 업로드 완료 후 동작
                                                         progressDialog.dismiss();
-                                                        postimage(postid, item.getCur_people(), item.getNickname(), item2.getProfileuri(), item2.getProfileimagename());
+                                                        postimage(postid, item.getCur_people(), item.getNickname(), item.getProfileuri(), item.getProfileimagename());
                                                     }
                                                 } else {
                                                     //실패

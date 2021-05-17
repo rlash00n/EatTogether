@@ -61,7 +61,7 @@ public class DeliveryFragment extends Fragment {
                     PostItem item1 = snapshot1.getValue(PostItem.class); // 만들어 뒀던 PostItem 객체에 데이터를 담는다
                     list.add(item1); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
                 }
-                UsersItem item2 = snapshot.getValue(UsersItem.class);
+                //UsersItem item2 = snapshot.getValue(UsersItem.class);
                 // boardAdapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
                 Collections.sort(list, new Ascending());
                 boardAdapter = new BoardAdapter(view.getContext(), list);
