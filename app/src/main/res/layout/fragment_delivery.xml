@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".DeliveryFragment">
+    android:background="#ffffff"
+    tools:context=".DeliveryFragment"
+    android:id="@+id/delivery_swiperefreshlayout">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/deliveryboard_recyclerview"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/board_item"/>
+        android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/board_floatingactionbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_baseline_add_24"
-        android:backgroundTint="#D32E2E"
-        android:layout_marginRight="20dp"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
-        android:layout_marginBottom="20dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/deliveryboard_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/board_item"/>
 
-</FrameLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/board_floatingactionbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/ic_baseline_add_24"
+            android:backgroundTint="#D32E2E"
+            android:layout_marginRight="20dp"
+            app:borderWidth="0dp"
+            app:elevation="0dp"
+            android:layout_marginBottom="20dp"/>
+
+    </FrameLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

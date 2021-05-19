@@ -31,6 +31,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DeliveryBoardDetailActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -52,7 +54,7 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
     Button del;
     Button chat;
 
-    ImageView profile;
+    CircleImageView profile;
     TextView nick;
     TextView time;
 
@@ -77,7 +79,7 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
         final String postid = intent.getStringExtra("pid");
         final String postuserid = intent.getStringExtra("uid");
 
-        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefreshlayout);
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.delivery_detail_swiperefreshlayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -87,8 +89,6 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         PostItem item = snapshot.getValue(PostItem.class);
 
-                        Glide.with(DeliveryBoardDetailActivity.this).load(item.getProfileuri()).into(profile);
-                        nick.setText(item.getNickname());
                         Long t = Long.parseLong(item.getWritetime());
                         time.setText(formatTimeString(t));
 
@@ -102,6 +102,23 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
                         list.add(new BoardDetailItem(item.getImageurilist()));
                         adapter = new BoardDetailAdapter(DeliveryBoardDetailActivity.this, list);
                         recyclerView.setAdapter(adapter);
+
+                        reference2 = FirebaseDatabase.getInstance().getReference("Users").child(item.getUserid());
+                        reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                UsersItem item1 = snapshot.getValue(UsersItem.class);
+
+                                Glide.with(DeliveryBoardDetailActivity.this).load(item1.getProfileuri()).into(profile);
+                                nick.setText(item1.getNickname());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
 
                     @Override
@@ -247,8 +264,6 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 PostItem item = snapshot.getValue(PostItem.class);
 
-                Glide.with(DeliveryBoardDetailActivity.this).load(item.getProfileuri()).into(profile);
-                nick.setText(item.getNickname());
                 Long t = Long.parseLong(item.getWritetime());
                 time.setText(formatTimeString(t));
 
@@ -271,6 +286,23 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
                     }
                 });
                 recyclerView.setAdapter(adapter);
+
+                reference2 = FirebaseDatabase.getInstance().getReference("Users").child(item.getUserid());
+                reference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        UsersItem item1 = snapshot.getValue(UsersItem.class);
+
+                        Glide.with(DeliveryBoardDetailActivity.this).load(item1.getProfileuri()).into(profile);
+                        nick.setText(item1.getNickname());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
             }
 
             @Override

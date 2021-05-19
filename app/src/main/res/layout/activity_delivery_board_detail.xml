@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     tools:context=".DeliveryBoardDetailActivity"
-    android:id="@+id/swiperefreshlayout">
+    android:id="@+id/delivery_detail_swiperefreshlayout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -83,7 +83,7 @@
                         android:orientation="horizontal"
                         android:padding="4dp">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/detail_profileuri"
                             android:layout_gravity="center_vertical"
                             android:layout_width="40dp"
@@ -100,7 +100,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#000000"
-                                android:text="닉네임"
                                 android:textStyle="bold"
                                 android:textSize="20dp"/>
 
@@ -109,8 +108,7 @@
                                 android:id="@+id/detail_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="#939393"
-                                android:text="올린 시간" />
+                                android:textColor="#939393" />
 
                         </LinearLayout>
 
@@ -121,7 +119,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="제목"
                         android:layout_marginHorizontal="14dp"
                         android:textColor="#000000"
                         android:textSize="30dp" />
@@ -132,7 +129,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:text="내용"
                         android:layout_marginHorizontal="14dp"
                         android:textColor="#000000"
                         android:textSize="20dp" />
@@ -176,7 +172,6 @@
                 android:layout_marginLeft="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
                 android:textSize="20dp"
                 android:textColor="#000000"
                 android:textStyle="bold"/>
@@ -195,7 +190,6 @@
                 android:layout_marginLeft="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4"
                 android:textSize="20dp"
                 android:textColor="#000000"
                 android:textStyle="bold"/>

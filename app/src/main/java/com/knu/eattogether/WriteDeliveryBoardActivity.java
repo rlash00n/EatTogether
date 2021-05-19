@@ -36,6 +36,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -98,7 +100,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (progress == 0) {
-                    tv_max_people.setText("0");
+                    tv_max_people.setText("0명");
                 } else {
                     tv_max_people.setText(String.valueOf(progress) + "명");
                 }
@@ -114,6 +116,25 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
 
             }
         });
+
+        if(postid != null){
+            databaseReference = FirebaseDatabase.getInstance().getReference("DeliveryPost").child(postid);
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    PostItem item = snapshot.getValue(PostItem.class);
+
+                    seekBar.setProgress(Integer.parseInt(item.getMax_people().replace("명","")));
+                    tv_max_people.setText(String.valueOf(seekBar.getProgress())+"명");
+                }
+
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                }
+            });
+
+        }
 
         iv_cancel = findViewById(R.id.write_cancel);
         iv_cancel.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +208,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
 
                                         if (cnt == list.size() - 1) { //이미지파일 업로드 완료 후 동작
                                             progressDialog.dismiss();
-                                            postimage2(postid);
+                                            postimage2();
                                         }
                                     } else {
                                         //실패
@@ -207,7 +228,6 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             final PostItem item = snapshot.getValue(PostItem.class);
-                            final UsersItem item2 = snapshot.getValue(UsersItem.class);
                             for (int k = 0; k < item.getImagenamelist().size(); k++) {
                                 remainlist.add(item.getImagenamelist().get(k));
                             }
@@ -238,7 +258,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
 
                                         if (cnt == list.size() - 1) { //이미지파일 업로드 완료 후 동작
                                             progressDialog.dismiss();
-                                            postimage(postid, item.getCur_people(), item.getNickname(), item.getProfileuri(), item.getProfileimagename());
+                                            postimage(postid, item.getCur_people());
                                         }
 
                                     } else {   //새로운 이미지
@@ -284,7 +304,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
 
                                                     if (cnt == list.size() - 1) { //이미지파일 업로드 완료 후 동작
                                                         progressDialog.dismiss();
-                                                        postimage(postid, item.getCur_people(), item.getNickname(), item.getProfileuri(), item.getProfileimagename());
+                                                        postimage(postid, item.getCur_people());
                                                     }
                                                 } else {
                                                     //실패
@@ -469,9 +489,6 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                     result.put("cur_people", "1");
                     result.put("postid", postid2);
                     result.put("userid", userid);
-                    result.put("nickname", item.getNickname());
-                    result.put("profileuri", item.getProfileuri());
-                    result.put("profileimagename", item.getProfileimagename());
                     String mp = tv_max_people.getText().toString().replace("명","");
                     result.put("max_people", mp);
                     result.put("imageexist", "0");
@@ -494,9 +511,6 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                     result.put("cur_people", cur_people);
                     result.put("postid", postid);
                     result.put("userid", userid);
-                    result.put("nickname", item.getNickname());
-                    result.put("profileuri", item.getProfileuri());
-                    result.put("profileimagename", item.getProfileimagename());
                     String mp = tv_max_people.getText().toString().replace("명","");
                     result.put("max_people", mp);
                     result.put("imageexist", "0");
@@ -516,7 +530,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
         });
     }
 
-    private void postimage2(String postid) {
+    private void postimage2() {
         final String userid = mAuth.getCurrentUser().getUid();
 
         database = FirebaseDatabase.getInstance();
@@ -540,9 +554,6 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                 result.put("cur_people", "1");
                 result.put("postid", postid2);
                 result.put("userid", userid);
-                result.put("nickname", item.getNickname());
-                result.put("profileuri", item.getProfileuri());
-                result.put("profileimagename", item.getProfileimagename());
                 String mp = tv_max_people.getText().toString().replace("명","");
                 result.put("max_people", mp);
                 result.put("imageexist", "1");
@@ -562,7 +573,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
 
     }
 
-    private void postimage(String postid, String cur_people, String nickname, String profileuri, String profileimagename) {
+    private void postimage(String postid, String cur_people) {
         final String userid = mAuth.getCurrentUser().getUid();
 
         database = FirebaseDatabase.getInstance();
@@ -587,9 +598,6 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                     result.put("cur_people", "1");
                     result.put("postid", postid2);
                     result.put("userid", userid);
-                    result.put("nickname", item.getNickname());
-                    result.put("profileuri", item.getProfileuri());
-                    result.put("profileimagename", item.getProfileimagename());
                     String mp = tv_max_people.getText().toString().replace("명","");
                     result.put("max_people", mp);
                     result.put("imageexist", "1");
@@ -620,9 +628,6 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
             result.put("cur_people", cur_people);
             result.put("postid", postid);
             result.put("userid", userid);
-            result.put("nickname", nickname);
-            result.put("profileuri", profileuri);
-            result.put("profileimagename", profileimagename);
             String mp = tv_max_people.getText().toString().replace("명","");
             result.put("max_people", mp);
             result.put("imageexist", "1");

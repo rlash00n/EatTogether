@@ -3,9 +3,7 @@ package com.knu.eattogether;
 import java.util.ArrayList;
 
 public class PostItem {
-    private String profileuri;
-    private String profileimagename;
-    private String nickname;
+
     private String title;
     private String contents;
     private String writetime;
@@ -18,10 +16,7 @@ public class PostItem {
     private ArrayList<String> imageurilist = new ArrayList<>();
     private ArrayList<String> imagenamelist = new ArrayList<>();
 
-    public PostItem(String profileuri, String profileimagename, String nickname, String title, String contents, String writetime, String postid, String userid, String picturecnt, String cur_people, String max_people, String imageexist, ArrayList<String> imageurilist, ArrayList<String> imagenamelist) {
-        this.profileuri = profileuri;
-        this.profileimagename = profileimagename;
-        this.nickname = nickname;
+    public PostItem(String title, String contents, String writetime, String postid, String userid, String picturecnt, String cur_people, String max_people, String imageexist, ArrayList<String> imageurilist, ArrayList<String> imagenamelist) {
         this.title = title;
         this.contents = contents;
         this.writetime = writetime;
@@ -38,29 +33,6 @@ public class PostItem {
     public PostItem() {
     }
 
-    public String getProfileuri() {
-        return profileuri;
-    }
-
-    public void setProfileuri(String profileuri) {
-        this.profileuri = profileuri;
-    }
-
-    public String getProfileimagename() {
-        return profileimagename;
-    }
-
-    public void setProfileimagename(String profileimagename) {
-        this.profileimagename = profileimagename;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
 
     public String getTitle() {
         return title;

@@ -24,17 +24,17 @@
                 android:orientation="horizontal">
                 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_marginLeft="15dp"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
                     android:id="@+id/mypage_profile"
                     android:clickable="true"/>
 
                 <TextView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="가나다라마바사아자차dsfasdfasd"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/black"
@@ -45,6 +45,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="5dp"
                 android:weightSum="3"
                 android:gravity="center"
                 android:padding="10dp"
@@ -62,8 +63,8 @@
 
                     <ImageView
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"/>
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"/>
 
                     <TextView
                         android:layout_gravity="center_horizontal"
@@ -84,8 +85,8 @@
 
                     <ImageView
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"/>
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"/>
 
                     <TextView
                         android:layout_gravity="center_horizontal"
@@ -106,8 +107,8 @@
 
                     <ImageView
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"/>
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"/>
 
                     <TextView
                         android:layout_gravity="center_horizontal"
@@ -130,15 +131,21 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:layout_marginRight="2dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/notification"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
 
                 <TextView
+                    android:layout_marginLeft="15dp"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -172,15 +179,21 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:layout_marginLeft="2dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/logout"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
 
                 <TextView
+                    android:layout_marginLeft="15dp"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -202,21 +215,26 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"/>
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/taltwe"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"/>
 
                 <TextView
+                    android:layout_marginLeft="15dp"
                     android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="20dp"
-                    android:text="회원 탈퇴"/>
+                    android:text="탈퇴하기"/>
 
             </LinearLayout>
 

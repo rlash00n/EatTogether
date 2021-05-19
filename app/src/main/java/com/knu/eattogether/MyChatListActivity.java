@@ -6,25 +6,25 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
-public class MyPostsActivity extends AppCompatActivity {
+public class MyChatListActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
-    MyDeliveryBoardFragment myDeliveryFragment;
-    MyEatOutBoardFragment myEatOutFragment;
+    MyDeliveryChatListFragment myDeliveryChatListFragment;
+    MyEatOutChatListFragment myEatOutChatListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_posts);
+        setContentView(R.layout.activity_my_chat_list);
 
-        myDeliveryFragment = new MyDeliveryBoardFragment();
-        myEatOutFragment = new MyEatOutBoardFragment();
+        myDeliveryChatListFragment = new MyDeliveryChatListFragment();
+        myEatOutChatListFragment = new MyEatOutChatListFragment();
 
         getSupportFragmentManager().beginTransaction().
-                replace(R.id.myposts_framelayout, myDeliveryFragment)
+                replace(R.id.mychats_framelayout, myDeliveryChatListFragment)
                 .commitAllowingStateLoss();
 
-        tabLayout = findViewById(R.id.myposts_tablayout);
+        tabLayout = findViewById(R.id.mychats_tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("배달 투게더"));
         tabLayout.addTab(tabLayout.newTab().setText("외식 투게더"));
 
@@ -34,12 +34,12 @@ public class MyPostsActivity extends AppCompatActivity {
                 int position = tab.getPosition();
                 if(position==0){
                     getSupportFragmentManager().beginTransaction().
-                            replace(R.id.myposts_framelayout, myDeliveryFragment)
+                            replace(R.id.mychats_framelayout, myDeliveryChatListFragment)
                             .commitAllowingStateLoss();
                 }
                 else{
                     getSupportFragmentManager().beginTransaction().
-                            replace(R.id.myposts_framelayout, myEatOutFragment)
+                            replace(R.id.mychats_framelayout, myEatOutChatListFragment)
                             .commitAllowingStateLoss();
                 }
             }
@@ -54,6 +54,5 @@ public class MyPostsActivity extends AppCompatActivity {
 
             }
         });
-
     }
 }

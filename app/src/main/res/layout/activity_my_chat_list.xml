@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyPostsActivity">
+    tools:context=".MyChatListActivity">
 
     <LinearLayout
-        android:id="@+id/myposts_linearLayout"
+        android:id="@+id/mychats_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
@@ -20,14 +20,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:text="나의 게시물"
+            android:text="참여중인 채팅"
             android:textColor="#000000"
             android:textSize="25dp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/myposts_tablayout"
+        android:id="@+id/mychats_tablayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="1dp"
@@ -35,19 +35,19 @@
         app:tabTextColor="@color/black"
         app:tabSelectedTextColor="@color/design_default_color_primary"
         app:tabIndicatorColor="@color/design_default_color_primary"
-        app:layout_constraintTop_toBottomOf="@+id/myposts_linearLayout"
-        app:layout_constraintBottom_toTopOf="@+id/myposts_framelayout"
+        app:layout_constraintTop_toBottomOf="@+id/mychats_linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/mychats_framelayout"
         app:tabMode="fixed"
         app:tabGravity="fill"/>
 
     <FrameLayout
-        android:id="@+id/myposts_framelayout"
+        android:id="@+id/mychats_framelayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myposts_tablayout" />
+        app:layout_constraintTop_toBottomOf="@+id/mychats_tablayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

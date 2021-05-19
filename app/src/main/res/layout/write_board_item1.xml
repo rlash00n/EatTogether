@@ -8,6 +8,6 @@
         android:id="@+id/writeboard_item_imageview1"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:scaleType="centerInside"/>
+        android:scaleType="centerCrop"/>
 
 </LinearLayout>

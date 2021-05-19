@@ -12,13 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
 
     private Context context = null;
     private List<PostItem> mDataList;
+    private ArrayList<UsersItem> ulist = new ArrayList<>();
 
     public BoardAdapter(Context context, List<PostItem> mDataList) {
         this.context = context;
@@ -42,8 +51,22 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         // 각 아이템들에 대한 매칭
         PostItem item1 = mDataList.get(position);
 
-        Glide.with(context).load(mDataList.get(position).getProfileuri()).into(holder.writer_image);
-        holder.writer_nick.setText(item1.getNickname());
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(item1.getUserid());
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                UsersItem item2 = snapshot.getValue(UsersItem.class);
+
+                Glide.with(context).load(item2.getProfileuri()).into(holder.writer_image);
+                holder.writer_nick.setText(item2.getNickname());
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
         holder.title.setText(item1.getTitle());
         holder.content.setText(item1.getContents());
 

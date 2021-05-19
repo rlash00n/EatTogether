@@ -7,11 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,8 +31,10 @@ public class DeliveryFragment extends Fragment {
 
     private RecyclerView deliveryRecyclerView;
     private BoardAdapter boardAdapter;
-    private ArrayList<PostItem> list = new ArrayList<>();
-    DatabaseReference databaseReference;
+    private ArrayList<PostItem> plist = new ArrayList<>();
+    DatabaseReference reference;
+    DatabaseReference reference2;
+    DatabaseReference reference3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,21 +55,50 @@ public class DeliveryFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
         deliveryRecyclerView.setLayoutManager(manager);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("DeliveryPost");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.delivery_swiperefreshlayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reference = FirebaseDatabase.getInstance().getReference("DeliveryPost");
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        //파이어베이스 데이터베이스의 데이터를 받아오는 곳
+                        plist.clear(); // 기존 배열리스트가 존재하지 않게 초기화
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()){
+                            PostItem item1 = snapshot1.getValue(PostItem.class); // 만들어 뒀던 PostItem 객체에 데이터를 담는다
+                            plist.add(item1); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
+
+                            Collections.sort(plist, new Ascending());
+                            boardAdapter = new BoardAdapter(view.getContext(), plist);
+                            deliveryRecyclerView.setAdapter(boardAdapter);
+                        }
+
+                    }
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        reference = FirebaseDatabase.getInstance().getReference("DeliveryPost");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 //파이어베이스 데이터베이스의 데이터를 받아오는 곳
-                list.clear(); // 기존 배열리스트가 존재하지 않게 초기화
+                plist.clear(); // 기존 배열리스트가 존재하지 않게 초기화
                 for(DataSnapshot snapshot1 : snapshot.getChildren()){
                     PostItem item1 = snapshot1.getValue(PostItem.class); // 만들어 뒀던 PostItem 객체에 데이터를 담는다
-                    list.add(item1); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
+                    plist.add(item1); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
+
+                    Collections.sort(plist, new Ascending());
+                    boardAdapter = new BoardAdapter(view.getContext(), plist);
+                    deliveryRecyclerView.setAdapter(boardAdapter);
                 }
-                //UsersItem item2 = snapshot.getValue(UsersItem.class);
-                // boardAdapter.notifyDataSetChanged(); //리스트 저장 및 새로고침
-                Collections.sort(list, new Ascending());
-                boardAdapter = new BoardAdapter(view.getContext(), list);
-                deliveryRecyclerView.setAdapter(boardAdapter);
+
             }
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
