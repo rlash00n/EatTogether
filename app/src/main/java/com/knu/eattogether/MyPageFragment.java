@@ -10,12 +10,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,7 +55,8 @@ public class MyPageFragment extends Fragment {
         myposts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context,MyPostsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -60,7 +64,8 @@ public class MyPageFragment extends Fragment {
         mychats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(context,MyChatsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -68,12 +73,20 @@ public class MyPageFragment extends Fragment {
         change_nick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final EditText nick = new EditText(context);
+                //edittext margin 조정
+                FrameLayout container = new FrameLayout(getContext());
+                FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+                params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+                nick.setLayoutParams(params);
+                container.addView(nick);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("닉네임 변경"); //제목
-                builder.setMessage("변경하실 닉네임을 작성해주세요"); // 메시지
+                builder.setMessage("\n변경하실 닉네임을 작성해주세요"); // 메시지
 
-                final EditText nick = new EditText(context);
-                builder.setView(nick);
+                builder.setIcon(R.drawable.nick_edit).setView(container);
 
                 builder.setPositiveButton("확인",new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int which) {
@@ -107,6 +120,11 @@ public class MyPageFragment extends Fragment {
                                         wanttoclose = false;
                                         break;
                                     }
+                                }
+                                if(TextUtils.isEmpty(changenick)){
+                                    nick.setError("닉네임을 입력해주세요.");
+                                    nick.requestFocus();
+                                    wanttoclose = false;
                                 }
                                 if(wanttoclose){
                                     FirebaseUser user = mAuth.getCurrentUser();

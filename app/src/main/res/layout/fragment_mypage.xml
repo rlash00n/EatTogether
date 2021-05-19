@@ -34,7 +34,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="가나다라마바사아자차"
+                    android:text="가나다라마바사아자차dsfasdfasd"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/black"
