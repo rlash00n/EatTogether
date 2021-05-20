@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:src="@drawable/ic_baseline_add_24"
+            android:src="@drawable/ic_baseline_post_add_24"
             android:backgroundTint="#D32E2E"
             android:layout_marginRight="20dp"
             app:borderWidth="0dp"
