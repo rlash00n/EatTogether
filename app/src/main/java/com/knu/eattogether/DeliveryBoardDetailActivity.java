@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,6 +64,7 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
 
     TextView cur_people;
     TextView max_people;
+    TextView participating;
 
     RecyclerView recyclerView;
     BoardDetailAdapter adapter;
@@ -158,6 +160,7 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
         remake = findViewById(R.id.detail_remake);
         del = findViewById(R.id.detail_del);
         chat = findViewById(R.id.detail_chat);
+        participating = findViewById(R.id.detail_participate);
 
         if(!userid.equals(postuserid)){
             remake.setVisibility(View.GONE);
@@ -165,7 +168,28 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
         }
         else{
             chat.setVisibility(View.GONE);
+            participating.setVisibility(View.VISIBLE);
         }
+
+        reference3 = FirebaseDatabase.getInstance().getReference("DeliveryChatList").child(postid);
+        reference3.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ChatListItem item = snapshot.getValue(ChatListItem.class);
+                ArrayList<String> tmp = item.getChatters_list();
+                for(String s : tmp){
+                    if(s.equals(userid)){
+                        chat.setVisibility(View.GONE);
+                        participating.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
 
         remake.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,8 +263,46 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
                                 int mp = Integer.parseInt(String.valueOf(max_people.getText()));
                                 if(cp < mp) {
                                     cur_people_plus(postid);
-                                    //채팅으로 이동
+                                    //ChatList 에 사용자들 추가
+                                    DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("DeliveryChatList").child(postid);
+                                    reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                            ChatListItem item = snapshot.getValue(ChatListItem.class);
+                                            ArrayList<String> tmp = item.getChatters_list();
+                                            tmp.add(userid);
+                                            item.setChatters_list(tmp);
+                                            reference1.setValue(item);
+                                        }
 
+                                        @Override
+                                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                        }
+                                    });
+                                    //Chatting 에 new chatter 등장
+                                    DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("DeliveryChat").child(postid).push();
+                                    HashMap result = new HashMap<>();
+
+                                    ArrayList<String> s = new ArrayList<>();
+                                    ArrayList<ArrayList<String>> ss = new ArrayList<ArrayList<String>>();
+                                    result.put("contents", null);
+                                    result.put("senderid", null);
+                                    result.put("receiverid", s);
+                                    result.put("time", null);
+                                    result.put("seen", ss);
+                                    result.put("newchatter","y");
+                                    result.put("newid",userid);
+                                    result.put("outchatter","n");
+                                    result.put("outid",null);
+
+                                    reference2.setValue(result);
+
+
+                                    Intent intent1 = new Intent(DeliveryBoardDetailActivity.this,DeliveryChattingActivity.class);
+                                    intent1.putExtra("postid", postid);
+                                    startActivity(intent1);
+                                    finish();
                                 }
                                 else{
                                     Toast.makeText(DeliveryBoardDetailActivity.this,"인원이 가득찼습니다",Toast.LENGTH_LONG).show();

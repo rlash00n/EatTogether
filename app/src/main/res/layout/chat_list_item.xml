@@ -18,7 +18,6 @@
             android:ellipsize="end"
             android:gravity="left"
             android:maxLines="1"
-            android:text="첨성)배깐드실분"
             android:textColor="#000000"
             android:textSize="20dp"
             android:textStyle="bold"
@@ -33,7 +32,6 @@
             android:layout_marginRight="5dp" />
 
         <TextView
-            android:text="4"
             android:layout_marginRight="11dp"
             android:id="@+id/chat_people"
             android:layout_width="wrap_content"
@@ -51,7 +49,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/chat_time"
-            android:text="5월 17일"
             android:textColor="#939393"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +62,6 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="채애애애애팅이이이이내애애용용"
             android:gravity="left"
             android:layout_marginRight="11dp"
             android:id="@+id/chat_contents"
@@ -88,7 +84,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/chat_new"
-            android:text="알림"
+            android:visibility="gone"
             android:background="@drawable/chat_new"
             android:paddingVertical="2dp"
             android:paddingHorizontal="6dp"

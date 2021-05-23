@@ -4,27 +4,17 @@ import java.util.ArrayList;
 
 public class ChatListItem {
 
-    private String chatid;
     private String postid;
     private String time;
     private ArrayList<String> chatters_list = new ArrayList<>();
 
-    public ChatListItem(String chatid, String postid, String time, ArrayList<String> chatters_list) {
-        this.chatid = chatid;
+    public ChatListItem(String postid, String time, ArrayList<String> chatters_list) {
         this.postid = postid;
         this.time = time;
         this.chatters_list = chatters_list;
     }
 
     public ChatListItem() {
-    }
-
-    public String getChatid() {
-        return chatid;
-    }
-
-    public void setChatid(String chatid) {
-        this.chatid = chatid;
     }
 
     public String getPostid() {

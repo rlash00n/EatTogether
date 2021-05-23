@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".MyChatListActivity"></activity>
+        <activity android:name=".DeliveryChattingActivity"></activity>
+        <activity android:name=".MyChatListActivity" />
         <activity android:name=".MyPostsActivity" />
         <activity android:name=".OnlyImageActivity" />
         <activity android:name=".DeliveryBoardDetailActivity" />

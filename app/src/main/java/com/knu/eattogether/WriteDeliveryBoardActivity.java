@@ -46,6 +46,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private DatabaseReference databaseReference2;
+    private DatabaseReference databaseReference3;
     private DatabaseReference databaseReference4;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseStorage storage;
@@ -496,6 +497,18 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                     result.put("imagenamelist", list3);
 
                     databaseReference.setValue(result);
+
+                    databaseReference3 = database.getReference("DeliveryChatList").child(postid2);
+                    HashMap result2 = new HashMap<>();
+
+                    result2.put("postid",postid2);
+                    result2.put("time",time+"");
+                    ArrayList<String> tmp = new ArrayList<>();
+                    tmp.add(userid);
+                    result2.put("chatters_list",tmp);
+
+                    databaseReference3.setValue(result2);
+
                     finish();
                 }
                 else {
@@ -518,6 +531,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                     result.put("imagenamelist", list3);
 
                     databaseReference.setValue(result);
+
                     finish();
                 }
 
@@ -561,6 +575,18 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                 result.put("imagenamelist", list3);
 
                 databaseReference.setValue(result);
+
+                databaseReference3 = database.getReference("DeliveryChatList").child(postid2);
+                HashMap result2 = new HashMap<>();
+
+                result2.put("postid",postid2);
+                result2.put("time",time+"");
+                ArrayList<String> tmp = new ArrayList<>();
+                tmp.add(userid);
+                result2.put("chatters_list",tmp);
+
+                databaseReference3.setValue(result2);
+
                 finish();
 
             }
@@ -573,71 +599,34 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
 
     }
 
+
+    //수정하기
     private void postimage(String postid, String cur_people) {
         final String userid = mAuth.getCurrentUser().getUid();
 
         database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("DeliveryPost").child(postid);
 
-        if (postid == null) {
-            databaseReference2 = database.getReference("Users").child(userid);
-            databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    UsersItem item = snapshot.getValue(UsersItem.class);
+        time = System.currentTimeMillis();
 
-                    databaseReference = database.getReference("DeliveryPost").push();
-                    String postid2 = databaseReference.getKey();
+        HashMap result = new HashMap<>();
 
-                    time = System.currentTimeMillis();
+        result.put("title", et_title.getText().toString());
+        result.put("contents", et_contents.getText().toString());
+        result.put("writetime", System.currentTimeMillis()+"");
+        result.put("cur_people", cur_people);
+        result.put("postid", postid);
+        result.put("userid", userid);
+        String mp = tv_max_people.getText().toString().replace("명","");
+        result.put("max_people", mp);
+        result.put("imageexist", "1");
+        result.put("imageurilist", list2);
+        result.put("imagenamelist", list3);
 
-                    HashMap result = new HashMap<>();
-
-                    result.put("title", et_title.getText().toString());
-                    result.put("contents", et_contents.getText().toString());
-                    result.put("writetime", System.currentTimeMillis()+"");
-                    result.put("cur_people", "1");
-                    result.put("postid", postid2);
-                    result.put("userid", userid);
-                    String mp = tv_max_people.getText().toString().replace("명","");
-                    result.put("max_people", mp);
-                    result.put("imageexist", "1");
-                    result.put("imageurilist", list2);
-                    result.put("imagenamelist", list3);
+        databaseReference.setValue(result);
+        finish();
 
 
-                    databaseReference.setValue(result);
-                    finish();
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        } else {
-            databaseReference = database.getReference("DeliveryPost").child(postid);
-
-            time = System.currentTimeMillis();
-
-            HashMap result = new HashMap<>();
-
-            result.put("title", et_title.getText().toString());
-            result.put("contents", et_contents.getText().toString());
-            result.put("writetime", System.currentTimeMillis()+"");
-            result.put("cur_people", cur_people);
-            result.put("postid", postid);
-            result.put("userid", userid);
-            String mp = tv_max_people.getText().toString().replace("명","");
-            result.put("max_people", mp);
-            result.put("imageexist", "1");
-            result.put("imageurilist", list2);
-            result.put("imagenamelist", list3);
-
-            databaseReference.setValue(result);
-            finish();
-
-        }
 
         for (int i = 0; i < remainlist.size(); i++) {
             int check = -1;
