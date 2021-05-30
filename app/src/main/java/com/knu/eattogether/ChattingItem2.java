@@ -1,6 +1,8 @@
 package com.knu.eattogether;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChattingItem2 {
 
@@ -8,14 +10,22 @@ public class ChattingItem2 {
     private String senderid;
     private ArrayList<String> receiversid = new ArrayList<>();
     private String time;
-    private ArrayList<ArrayList<String>> seen = new ArrayList<ArrayList<String>>();
+    private Map<String,Object> seenUsers = new HashMap<>();
 
-    public ChattingItem2(String contents, String senderid, ArrayList<String> receiversid, String time, ArrayList<ArrayList<String>> seen) {
+    public ChattingItem2(String contents, String senderid, ArrayList<String> receiversid, String time, Map<String, Object> seenUsers) {
         this.contents = contents;
         this.senderid = senderid;
         this.receiversid = receiversid;
         this.time = time;
-        this.seen = seen;
+        this.seenUsers = seenUsers;
+    }
+
+    public Map<String, Object> getSeenUsers() {
+        return seenUsers;
+    }
+
+    public void setSeenUsers(Map<String, Object> seenUsers) {
+        this.seenUsers = seenUsers;
     }
 
     public ChattingItem2() {
@@ -53,11 +63,4 @@ public class ChattingItem2 {
         this.time = time;
     }
 
-    public ArrayList<ArrayList<String>> getSeen() {
-        return seen;
-    }
-
-    public void setSeen(ArrayList<ArrayList<String>> seen) {
-        this.seen = seen;
-    }
 }

@@ -211,6 +211,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:text="참여중"
                 android:textSize="20dp"
                 android:textColor="@color/black" />

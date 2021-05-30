@@ -20,8 +20,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.knu.eattogether.Notification.Token;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox chk_auto;
 
     public static Context context_login;
+
+    ArrayList<String> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +74,13 @@ public class LoginActivity extends AppCompatActivity {
                 strPwd = mEtPwd.getText().toString();
 
                 if(TextUtils.isEmpty(strEmail)){
-                    Toast.makeText(LoginActivity.this, "이메일을 입력해 주세요", Toast.LENGTH_SHORT).show();
+                    mEtEmail.setError("이메일을 입력해주세요!");
+                    mEtEmail.requestFocus();
                     return;
                 }
                 if(TextUtils.isEmpty(strPwd)){
-                    Toast.makeText(LoginActivity.this, "암호를 입력해 주세요", Toast.LENGTH_SHORT).show();
+                    mEtPwd.setError("암호를 입력해주세요!");
+                    mEtPwd.requestFocus();
                     return;
                 }
                 //Login
@@ -108,9 +122,59 @@ public class LoginActivity extends AppCompatActivity {
                         if(chk_auto.isChecked()){
                             MySharedPreferences.setPref(context_login, strEmail, strPwd,true);
                         }
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish(); //현재 액티비티 파괴
+                        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<String> task) {
+                                if(!task.isSuccessful()){
+                                    Toast.makeText(LoginActivity.this, "토큰 생성 실패", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                String token = task.getResult();
+                                String uid = mFirebaseAuth.getCurrentUser().getUid();
+
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("UserTokenList").child(uid);
+                                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        if(snapshot.exists()) {
+                                            list.clear();
+                                            Token item = snapshot.getValue(Token.class);
+                                            boolean tokenexist = false;
+                                            for(String s : item.getTokenList()){
+                                                if(token.equals(s)){
+                                                   tokenexist = true;
+                                                }
+                                            }
+                                            list = item.getTokenList();
+                                            if(!tokenexist) list.add(token);
+                                            item.setTokenList(list);
+
+                                            reference.setValue(item);
+                                        }
+                                        else{
+                                            Token item = new Token();
+                                            list.clear();
+                                            list.add(token);
+                                            item.setTokenList(list);
+
+                                            reference.setValue(item);
+                                        }
+
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                        finish(); //현재 액티비티 파괴
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                    }
+                                });
+
+                            }
+                        });
+
                     }else{
                         Toast.makeText(LoginActivity.this, "인증 메일을 확인해주세요!", Toast.LENGTH_LONG).show();
                     }

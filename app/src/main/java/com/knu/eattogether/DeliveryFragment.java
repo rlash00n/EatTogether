@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +29,7 @@ import java.util.Comparator;
 public class DeliveryFragment extends Fragment {
 
     private RecyclerView deliveryRecyclerView;
-    private BoardAdapter boardAdapter;
+    private DeliveryBoardAdapter deliveryBoardAdapter;
     private ArrayList<PostItem> plist = new ArrayList<>();
     DatabaseReference reference;
     DatabaseReference reference2;
@@ -42,7 +41,7 @@ public class DeliveryFragment extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_delivery, container, false);
 
-        FloatingActionButton fab = view.findViewById(R.id.board_floatingactionbutton);
+        FloatingActionButton fab = view.findViewById(R.id.deliveryboard_floatingactionbutton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,8 +69,8 @@ public class DeliveryFragment extends Fragment {
                             plist.add(item1); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
 
                             Collections.sort(plist, new Ascending());
-                            boardAdapter = new BoardAdapter(view.getContext(), plist);
-                            deliveryRecyclerView.setAdapter(boardAdapter);
+                            deliveryBoardAdapter = new DeliveryBoardAdapter(view.getContext(), plist);
+                            deliveryRecyclerView.setAdapter(deliveryBoardAdapter);
                         }
 
                     }
@@ -85,7 +84,7 @@ public class DeliveryFragment extends Fragment {
         });
 
         reference = FirebaseDatabase.getInstance().getReference("DeliveryPost");
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 //파이어베이스 데이터베이스의 데이터를 받아오는 곳
@@ -95,8 +94,8 @@ public class DeliveryFragment extends Fragment {
                     plist.add(item1); //담은 데이터들을 배열리스트에 넣고 리사이클러뷰로 보낼 준비
 
                     Collections.sort(plist, new Ascending());
-                    boardAdapter = new BoardAdapter(view.getContext(), plist);
-                    deliveryRecyclerView.setAdapter(boardAdapter);
+                    deliveryBoardAdapter = new DeliveryBoardAdapter(view.getContext(), plist);
+                    deliveryRecyclerView.setAdapter(deliveryBoardAdapter);
                 }
 
             }

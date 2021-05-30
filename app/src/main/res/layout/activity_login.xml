@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#BBA291"
+    android:background="#F6C1C1"
     tools:context=".LoginActivity">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_width="250dp"
             android:layout_height="200dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_launcher_foreground"/>
+            android:src="@drawable/logo_yellow"/>
 
         <View
             android:layout_width="0dp"
@@ -39,22 +39,27 @@
         android:gravity="center_horizontal">
 
         <EditText
+            android:padding="10dp"
+            android:background="@drawable/background_rounding2"
             android:id="@+id/et_email"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:inputType="textEmailAddress"
-            android:hint="E-Mail"
+            android:hint=" E-Mail"
             android:textColor="#000000"
             android:textColorHint="#808080" />
 
 
         <EditText
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@drawable/background_rounding2"
             android:id="@+id/et_pwd"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="Password"
+            android:hint=" Password"
             android:inputType="textPassword"
             android:textColor="#000000"
             android:textColorHint="#808080" />
@@ -64,16 +69,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:text="자동 로그인"
+            android:buttonTint="#515151"
+            android:textColor="#515151"
             android:textSize="15dp"/>
 
 
         <Button
             android:id="@+id/btn_login"
+            android:background="@drawable/background_rounding3"
             android:layout_width="196dp"
             android:layout_height="49dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="17dp"
             android:text="로그인" />
 
 
@@ -88,18 +99,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_marginTop="25dp">
-
-            <TextView
-                android:id="@+id/tv_findpwd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="비밀번호 찾기/재설정"
-                android:textColor="#808080"
-                android:textSize="15sp"
-                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/tv_register"
@@ -108,9 +109,22 @@
                 android:layout_gravity="center"
                 android:text="회원가입"
                 android:textSize="15sp"
-                android:textColor="#808080"
+                android:textColor="#515151"
                 android:layout_weight="1"
                 android:gravity="center"/>
+
+            <TextView
+                android:layout_marginTop="9dp"
+                android:id="@+id/tv_findpwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="인증 이메일 재전송 / 비밀번호 재설정"
+                android:textColor="#515151"
+                android:textSize="15sp"
+                android:layout_weight="1"/>
+
+
         </LinearLayout>
 
     </LinearLayout>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -71,9 +69,15 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    UsersItem item = snapshot.getValue(UsersItem.class);
-                    Glide.with(context).load(item.getProfileuri()).into(((FirstViewHolder) holder).profile);
-                    ((FirstViewHolder) holder).nickname.setText(item.getNickname());
+                    if(snapshot.exists()) {
+                        UsersItem item = snapshot.getValue(UsersItem.class);
+                        Glide.with(context).load(item.getProfileuri()).into(((FirstViewHolder) holder).profile);
+                        ((FirstViewHolder) holder).nickname.setText(item.getNickname());
+                    }
+                    else{
+                        ((FirstViewHolder) holder).profile.setImageResource(R.drawable.default_profile);
+                        ((FirstViewHolder) holder).nickname.setText("(알 수 없음)");
+                    }
                 }
 
                 @Override
@@ -82,12 +86,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
             ((FirstViewHolder) holder).contents.setText(mDataList.get(position).getContents());
-            int cnt=0;
-            for(ArrayList<String> s : mDataList.get(position).getSeen()){
-                if(s.get(1).equals("n")){
-                    cnt++;
-                }
-            }
+            int cnt = mDataList.get(position).getReceiversid().size() + 1 - mDataList.get(position).getSeenUsers().size();
             if(cnt==0){
                 ((FirstViewHolder) holder).seen.setVisibility(View.GONE);
             }
@@ -101,12 +100,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         else if(holder instanceof SecondViewHolder){
             ((SecondViewHolder) holder).contents.setText(mDataList.get(position).getContents());
-            int cnt = 0;
-            for(ArrayList<String> s : mDataList.get(position).getSeen()){
-                if(s.get(1).equals("n")){
-                    cnt++;
-                }
-            }
+            int cnt = mDataList.get(position).getReceiversid().size() + 1 - mDataList.get(position).getSeenUsers().size();
             if(cnt==0){
                 ((SecondViewHolder) holder).seen.setVisibility(View.GONE);
             }
@@ -124,8 +118,13 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    UsersItem item = snapshot.getValue(UsersItem.class);
-                    ((ThirdViewHolder) holder).new_chatter.setText(item.getNickname()+"님이 참여하셨습니다.");
+                    if(snapshot.exists()){
+                        UsersItem item = snapshot.getValue(UsersItem.class);
+                        ((ThirdViewHolder) holder).new_chatter.setText(item.getNickname()+"님이 참여하셨습니다.");
+                    }
+                    else{
+                        ((ThirdViewHolder) holder).new_chatter.setText("(알 수 없음)님이 참여하셨습니다.");
+                    }
                 }
 
                 @Override
@@ -135,12 +134,17 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
         }
         else{
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(mDataList.get(position).getNewid());
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(mDataList.get(position).getOutid());
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    UsersItem item = snapshot.getValue(UsersItem.class);
-                    ((FourthViewHolder) holder).out_chatter.setText(item.getNickname()+"님이 나가셨습니다.");
+                    if(snapshot.exists()){
+                        UsersItem item = snapshot.getValue(UsersItem.class);
+                        ((FourthViewHolder) holder).out_chatter.setText(item.getNickname()+"님이 나가셨습니다.");
+                    }
+                    else{
+                        ((FourthViewHolder) holder).out_chatter.setText("(알 수 없음)님이 나가셨습니다.");
+                    }
                 }
 
                 @Override
@@ -215,15 +219,15 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         long curTime = System.currentTimeMillis();
         long diffTime = (curTime - regTime) / 1000;
         String msg = "";
-        if (diffTime < BoardAdapter.TIME_MAXIMUM.SEC) {
+        if (diffTime < DeliveryBoardAdapter.TIME_MAXIMUM.SEC) {
             msg = "방금 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.SEC) < BoardAdapter.TIME_MAXIMUM.MIN) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.SEC) < DeliveryBoardAdapter.TIME_MAXIMUM.MIN) {
             msg = diffTime + "분 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.MIN) < BoardAdapter.TIME_MAXIMUM.HOUR) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.MIN) < DeliveryBoardAdapter.TIME_MAXIMUM.HOUR) {
             msg = (diffTime) + "시간 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.HOUR) < BoardAdapter.TIME_MAXIMUM.DAY) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.HOUR) < DeliveryBoardAdapter.TIME_MAXIMUM.DAY) {
             msg = (diffTime) + "일 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.DAY) < BoardAdapter.TIME_MAXIMUM.MONTH) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.DAY) < DeliveryBoardAdapter.TIME_MAXIMUM.MONTH) {
             msg = (diffTime) + "달 전";
         } else {
             msg = (diffTime) + "년 전";

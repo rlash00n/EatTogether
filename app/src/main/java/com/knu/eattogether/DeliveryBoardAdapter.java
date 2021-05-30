@@ -23,18 +23,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> {
+public class DeliveryBoardAdapter extends RecyclerView.Adapter<DeliveryBoardAdapter.ViewHolder> {
 
     private Context context = null;
     private List<PostItem> mDataList;
     private ArrayList<UsersItem> ulist = new ArrayList<>();
 
-    public BoardAdapter(Context context, List<PostItem> mDataList) {
+    public DeliveryBoardAdapter(Context context, List<PostItem> mDataList) {
         this.context = context;
         this.mDataList = mDataList;
     }
 
-    public BoardAdapter() {
+    public DeliveryBoardAdapter() {
     }
 
     @NonNull
@@ -47,7 +47,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BoardAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DeliveryBoardAdapter.ViewHolder holder, int position) {
         // 각 아이템들에 대한 매칭
         PostItem item1 = mDataList.get(position);
 

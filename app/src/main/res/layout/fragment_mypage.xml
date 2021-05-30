@@ -19,6 +19,7 @@
             android:layout_height="wrap_content">
             
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -64,10 +65,11 @@
                     <ImageView
                         android:src="@drawable/myposts"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"/>
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
 
                     <TextView
+                        android:layout_marginTop="5dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -87,10 +89,11 @@
                     <ImageView
                         android:src="@drawable/mychats"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"/>
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
 
                     <TextView
+                        android:layout_marginTop="5dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -110,10 +113,11 @@
                     <ImageView
                         android:src="@drawable/changenick"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"/>
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"/>
 
                     <TextView
+                        android:layout_marginTop="5dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

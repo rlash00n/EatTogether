@@ -22,7 +22,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DeliveryChatListAdapter extends RecyclerView.Adapter<DeliveryChatListAdapter.ViewHolder> {
 
@@ -57,9 +59,11 @@ public class DeliveryChatListAdapter extends RecyclerView.Adapter<DeliveryChatLi
         reference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                PostItem item = snapshot.getValue(PostItem.class);
-                holder.title.setText(item.getTitle());
-                holder.chat_people.setText(item.getCur_people());
+                if(snapshot.exists()) {
+                    PostItem item = snapshot.getValue(PostItem.class);
+                    holder.title.setText(item.getTitle());
+                    holder.chat_people.setText(item.getCur_people());
+                }
             }
 
             @Override
@@ -72,36 +76,35 @@ public class DeliveryChatListAdapter extends RecyclerView.Adapter<DeliveryChatLi
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                list.clear();
-                int cnt=0;
-                for(DataSnapshot snapshot1 : snapshot.getChildren()){
-                    ChattingItem2 item2 = snapshot1.getValue(ChattingItem2.class);
-                    if(item2.getContents() == null) continue;
-                    list.add(item2);
-                    ArrayList<ArrayList<String>> tmp = item2.getSeen();
-                    for(ArrayList<String> ss : tmp){
-                        if(ss.get(0).equals(myid) && ss.get(1).equals("n")){
-                            cnt++;
-                        }
-                    }
-                }
-                if(list.size()>0){
-                    Collections.sort(list, new Ascending());
-                    holder.contents.setText(list.get(0).getContents());
+                if(snapshot.exists()) {
+                    list.clear();
+                    int cnt = 0;
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        ChattingItem2 item2 = snapshot1.getValue(ChattingItem2.class);
+                        if (item2.getContents() == null) continue;
+                        list.add(item2);
 
-                    Long t = Long.parseLong(list.get(0).getTime());
-                    holder.time.setText(formatTimeString(t));
-                }
-                if(cnt == 0){
-                    holder.chat_new.setVisibility(View.GONE);
-                }
-                else if(cnt <= 99){
-                    holder.chat_new.setVisibility(View.VISIBLE);
-                    holder.chat_new.setText(cnt+"");
-                }
-                else{
-                    holder.chat_new.setVisibility(View.VISIBLE);
-                    holder.chat_new.setText("99+");
+                        ArrayList<String> rec = item2.getReceiversid();
+                        Map<String, Object> seen = new HashMap<>();
+                        seen = item2.getSeenUsers();
+                        if (rec.contains(myid) && !seen.containsKey(myid)) cnt++;
+                    }
+                    if (list.size() > 0) {
+                        Collections.sort(list, new Ascending());
+                        holder.contents.setText(list.get(0).getContents());
+
+                        Long t = Long.parseLong(list.get(0).getTime());
+                        holder.time.setText(formatTimeString(t));
+                    }
+                    if (cnt == 0) {
+                        holder.chat_new.setVisibility(View.GONE);
+                    } else if (cnt <= 99) {
+                        holder.chat_new.setVisibility(View.VISIBLE);
+                        holder.chat_new.setText(cnt + "");
+                    } else {
+                        holder.chat_new.setVisibility(View.VISIBLE);
+                        holder.chat_new.setText("99+");
+                    }
                 }
             }
 
@@ -157,15 +160,15 @@ public class DeliveryChatListAdapter extends RecyclerView.Adapter<DeliveryChatLi
         long curTime = System.currentTimeMillis();
         long diffTime = (curTime - regTime) / 1000;
         String msg = "";
-        if (diffTime < BoardAdapter.TIME_MAXIMUM.SEC) {
+        if (diffTime < DeliveryBoardAdapter.TIME_MAXIMUM.SEC) {
             msg = "방금 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.SEC) < BoardAdapter.TIME_MAXIMUM.MIN) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.SEC) < DeliveryBoardAdapter.TIME_MAXIMUM.MIN) {
             msg = diffTime + "분 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.MIN) < BoardAdapter.TIME_MAXIMUM.HOUR) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.MIN) < DeliveryBoardAdapter.TIME_MAXIMUM.HOUR) {
             msg = (diffTime) + "시간 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.HOUR) < BoardAdapter.TIME_MAXIMUM.DAY) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.HOUR) < DeliveryBoardAdapter.TIME_MAXIMUM.DAY) {
             msg = (diffTime) + "일 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.DAY) < BoardAdapter.TIME_MAXIMUM.MONTH) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.DAY) < DeliveryBoardAdapter.TIME_MAXIMUM.MONTH) {
             msg = (diffTime) + "달 전";
         } else {
             msg = (diffTime) + "년 전";

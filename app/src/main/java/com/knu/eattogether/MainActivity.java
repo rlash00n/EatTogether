@@ -3,6 +3,7 @@ package com.knu.eattogether;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
@@ -19,11 +20,15 @@ public class MainActivity extends AppCompatActivity {
 
     TextView main_tv;
 
+    public static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = this;
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         main_tv = findViewById(R.id.main_text);

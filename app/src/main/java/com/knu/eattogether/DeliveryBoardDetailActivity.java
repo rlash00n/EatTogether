@@ -9,12 +9,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -218,21 +217,33 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage("삭제하시겠습니까?");
-                builder.setPositiveButton("확인",
-                        new DialogInterface.OnClickListener() {
+                builder.setMessage("게시글을 삭제하시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder builder1 = new AlertDialog.Builder(v.getContext());
+                        builder1.setMessage("게시글에 대한 채팅방 또한 삭제됩니다.\n삭제하시겠습니까?");
+                        builder1.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //imagedelete(postid);
+                                image_delete(postid);
                             }
                         });
-                builder.setNegativeButton("취소",
-                        new DialogInterface.OnClickListener() {
+                        builder1.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
                             }
                         });
+                        builder1.show();
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 builder.show();
             }
         });
@@ -284,17 +295,9 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
                                     DatabaseReference reference2 = FirebaseDatabase.getInstance().getReference("DeliveryChat").child(postid).push();
                                     HashMap result = new HashMap<>();
 
-                                    ArrayList<String> s = new ArrayList<>();
-                                    ArrayList<ArrayList<String>> ss = new ArrayList<ArrayList<String>>();
-                                    result.put("contents", null);
-                                    result.put("senderid", null);
-                                    result.put("receiverid", s);
-                                    result.put("time", null);
-                                    result.put("seen", ss);
                                     result.put("newchatter","y");
                                     result.put("newid",userid);
                                     result.put("outchatter","n");
-                                    result.put("outid",null);
 
                                     reference2.setValue(result);
 
@@ -401,19 +404,61 @@ public class DeliveryBoardDetailActivity extends AppCompatActivity {
         long curTime = System.currentTimeMillis();
         long diffTime = (curTime - regTime) / 1000;
         String msg = "";
-        if (diffTime < BoardAdapter.TIME_MAXIMUM.SEC) {
+        if (diffTime < DeliveryBoardAdapter.TIME_MAXIMUM.SEC) {
             msg = "방금 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.SEC) < BoardAdapter.TIME_MAXIMUM.MIN) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.SEC) < DeliveryBoardAdapter.TIME_MAXIMUM.MIN) {
             msg = diffTime + "분 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.MIN) < BoardAdapter.TIME_MAXIMUM.HOUR) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.MIN) < DeliveryBoardAdapter.TIME_MAXIMUM.HOUR) {
             msg = (diffTime) + "시간 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.HOUR) < BoardAdapter.TIME_MAXIMUM.DAY) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.HOUR) < DeliveryBoardAdapter.TIME_MAXIMUM.DAY) {
             msg = (diffTime) + "일 전";
-        } else if ((diffTime /= BoardAdapter.TIME_MAXIMUM.DAY) < BoardAdapter.TIME_MAXIMUM.MONTH) {
+        } else if ((diffTime /= DeliveryBoardAdapter.TIME_MAXIMUM.DAY) < DeliveryBoardAdapter.TIME_MAXIMUM.MONTH) {
             msg = (diffTime) + "달 전";
         } else {
             msg = (diffTime) + "년 전";
         }
         return msg;
+    }
+
+    private void image_delete(final String postid){
+        reference5 = FirebaseDatabase.getInstance().getReference("DeliveryPost").child(postid);
+        reference5.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PostItem item = snapshot.getValue(PostItem.class);
+                String s = item.getImageexist();
+                if(s.equals("1")){
+                    for(int i=0;i<item.getImagenamelist().size();i++){
+                        storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://eattogether-1647c.appspot.com").child("images/"+item.getImagenamelist().get(i));
+                        storageRef.delete();
+                    }
+                }
+                post_delete(postid);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void post_delete(final String postid){
+        reference6 = FirebaseDatabase.getInstance().getReference("DeliveryPost").child(postid);
+        reference6.removeValue();
+        chatlist_delete(postid);
+    }
+
+    private void chatlist_delete(final String postid){
+        reference7 = FirebaseDatabase.getInstance().getReference("DeliveryChatList").child(postid);
+        reference7.removeValue();
+        chat_delete(postid);
+    }
+
+    private void chat_delete(final String postid){
+        reference8 = FirebaseDatabase.getInstance().getReference("DeliveryChat").child(postid);
+        reference8.removeValue();
+        finish();
     }
 }

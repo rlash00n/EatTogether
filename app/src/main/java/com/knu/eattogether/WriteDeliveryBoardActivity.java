@@ -158,6 +158,13 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                 list3.clear();
 
                 if (postid == null) { //글쓰기
+
+                    int mp = Integer.parseInt(String.valueOf(tv_max_people.getText().toString().replace("명","")));
+                    if(mp<2){
+                        Toast.makeText(WriteDeliveryBoardActivity.this, "최대 인원을 2명 이상으로 설정해주세요.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     if (list.size() >= 2) {
                         storage = FirebaseStorage.getInstance();
                         StorageReference storageRef = storage.getReferenceFromUrl("gs://eattogether-1647c.appspot.com");
@@ -222,6 +229,14 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                     }
                 }
                 else{ //수정하기
+
+                    int cp = Integer.parseInt((String.valueOf(cur_people)));
+                    int mp = Integer.parseInt(String.valueOf(tv_max_people.getText().toString().replace("명","")));
+                    if(cp > mp){
+                        Toast.makeText(WriteDeliveryBoardActivity.this, "최대 인원을 "+ cur_people +"명 이상으로 설정해주세요.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     remainlist.clear();
                     removelist.clear();
                     databaseReference4 = FirebaseDatabase.getInstance().getReference("DeliveryPost").child(postid);
@@ -525,6 +540,7 @@ public class WriteDeliveryBoardActivity extends AppCompatActivity {
                     result.put("postid", postid);
                     result.put("userid", userid);
                     String mp = tv_max_people.getText().toString().replace("명","");
+
                     result.put("max_people", mp);
                     result.put("imageexist", "0");
                     result.put("imageurilist", list2);

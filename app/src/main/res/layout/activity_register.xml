@@ -4,22 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#BBA291"
+    android:background="#F6C1C1"
+    android:weightSum="3"
+    android:orientation="vertical"
     tools:context=".RegisterActivity">
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <LinearLayout
+        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textColor="#000000"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+
         <EditText
             android:id="@+id/et_email"
+            android:padding="10dp"
+            android:background="@drawable/background_rounding2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="20dp"
             android:ems="12"
             android:hint="E-Mail"
             android:inputType="textEmailAddress"
@@ -29,6 +49,9 @@
 
         <EditText
             android:id="@+id/et_pwd"
+            android:padding="10dp"
+            android:background="@drawable/background_rounding2"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,6 +63,9 @@
 
         <EditText
             android:id="@+id/et_nick"
+            android:padding="10dp"
+            android:background="@drawable/background_rounding2"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,13 +77,32 @@
 
         <Button
             android:id="@+id/btn_register"
+            android:background="@drawable/background_rounding3"
             android:layout_width="196dp"
             android:layout_height="49dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="17dp"
             android:text="회원가입" />
 
+        <TextView
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="34dp"
+            android:layout_marginRight="34dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_gravity="center"
+            android:text="가입하신 이메일로 인증 메일이 발송되며, 이메일 인증 완료 후 로그인 하실 수 있습니다."
+            android:textColor="#000000" />
+
     </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 
 </LinearLayout>

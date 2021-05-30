@@ -7,17 +7,27 @@ public class UsersItem {
     private String password;
     private String profileuri;
     private String profileimagename;
+    private String alram;
 
     public UsersItem() {
     }
 
-    public UsersItem(String email, String idToken, String nickname, String password, String profileuri, String profileimagename) {
+    public UsersItem(String email, String idToken, String nickname, String password, String profileuri, String profileimagename, String alram) {
         this.email = email;
         this.idToken = idToken;
         this.nickname = nickname;
         this.password = password;
         this.profileuri = profileuri;
         this.profileimagename = profileimagename;
+        this.alram = alram;
+    }
+
+    public String getAlram() {
+        return alram;
+    }
+
+    public void setAlram(String alram) {
+        this.alram = alram;
     }
 
     public String getEmail() {
